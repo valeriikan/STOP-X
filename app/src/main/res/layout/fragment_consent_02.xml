@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".view.ConsentFragment_02">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_title"
+            android:text="@string/consent_title"
+            android:textColor="@android:color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -23,8 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/welcome_details"
+            android:text="@string/consent_details"
             android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
     </LinearLayout>
