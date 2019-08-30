@@ -1,13 +1,12 @@
 package com.aware.app.testx.presenter;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,7 +18,9 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.aware.app.testx.R;
 import com.aware.app.testx.view.RegisterFragment_01;
@@ -39,45 +40,65 @@ public class MedicationDialog extends DialogFragment {
     private ArrayList<String> intakeTimes;
     private IntakeTimeAdapter adapter;
 
-    @NonNull
+    private Toolbar toolbar;
+
+    private TextInputEditText dialog_name, dialog_dosage, dialog_notes;
+    private ImageButton dialog_intake_btn;
+    private ListView dialog_intake_list;
+    private TextView dialog_intake_tv;
+
+    public static MedicationDialog display(FragmentManager manager) {
+        MedicationDialog dialog = new MedicationDialog();
+        dialog.show(manager, "TAG");
+        return dialog;
+    }
+
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
 
         intakeTimes = new ArrayList<>();
+    }
 
-
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_medication, null);
-        final TextInputEditText dialog_name = view.findViewById(R.id.dialog_name);
-        final TextInputEditText dialog_dosage = view.findViewById(R.id.dialog_dosage);
-        final TextInputEditText dialog_notes = view.findViewById(R.id.dialog_notes);
-        final TextInputEditText dialog_intake_et = view.findViewById(R.id.dialog_intake_et);
-        final ImageButton dialog_intake_btn = view.findViewById(R.id.dialog_intake_btn);
+
+        toolbar = view.findViewById(R.id.dialog_toolbar);
+
+        dialog_name = view.findViewById(R.id.dialog_name);
+        dialog_dosage = view.findViewById(R.id.dialog_dosage);
+        dialog_notes = view.findViewById(R.id.dialog_notes);
+        dialog_intake_btn = view.findViewById(R.id.dialog_intake_btn);
+        dialog_intake_list = view.findViewById(R.id.dialog_intake_list);
+        dialog_intake_tv = view.findViewById(R.id.dialog_intake_tv);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         dialog_intake_btn.setOnClickListener(add_time);
-        dialog_intake_et.setOnClickListener(add_time);
+        dialog_intake_tv.setOnClickListener(add_time);
 
-        ListView dialog_intake_list = view.findViewById(R.id.dialog_intake_list);
-        adapter = new IntakeTimeAdapter(getContext(), intakeTimes);
-        dialog_intake_list.setAdapter(adapter);
-
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Add a medication")
-                .setView(view)
-                .setPositiveButton("Add", null)
-                .setNegativeButton("Cancel", null)
-                .create();
-
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onShow(DialogInterface dial) {
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        toolbar.setTitle("Add a medication");
+        toolbar.inflateMenu(R.menu.medication_dialog);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
 
-                        RegisterFragment_01.medications.add(dialog_name.getText().toString());
-                        RegisterFragment_01.adapter.notifyDataSetChanged();
-
-                        dialog.dismiss();
-
+                RegisterFragment_01.medications.add(dialog_name.getText().toString());
+                RegisterFragment_01.adapter.notifyDataSetChanged();
 
 //                        User.Medication medication = user.new Medication(
 //                                dialog_name.getText().toString(),
@@ -85,21 +106,29 @@ public class MedicationDialog extends DialogFragment {
 //                                dialog_notes.getText().toString(),
 //                                dialog_notes.getText().toString()
 //                        );
-                    }
-                });
 
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                dismiss();
+                return true;
             }
         });
 
-
-        return dialog;
+        adapter = new IntakeTimeAdapter(getContext(), intakeTimes);
+        dialog_intake_list.setAdapter(adapter);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+            dialog.getWindow().setWindowAnimations(R.style.AppTheme_Slide);
+        }
+    }
+
 
     private View.OnClickListener add_time = new View.OnClickListener() {
         @Override
