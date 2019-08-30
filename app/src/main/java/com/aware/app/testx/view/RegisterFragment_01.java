@@ -7,14 +7,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.aware.app.testx.R;
+import com.aware.app.testx.presenter.MedicationAdapter;
+import com.aware.app.testx.presenter.MedicationDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class RegisterFragment_01 extends Fragment {
 
-    FloatingActionButton fab_medication;
+    FloatingActionButton fab;
+    ListView listView;
+
+    public static ArrayList<String> medications;
+    public static MedicationAdapter adapter;
 
     public RegisterFragment_01() {
     }
@@ -25,13 +34,20 @@ public class RegisterFragment_01 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register_01, container, false);
 
-        fab_medication = view.findViewById(R.id.fab_medication);
-        fab_medication.setOnClickListener(new View.OnClickListener() {
+        medications = new ArrayList<>();
+        adapter = new MedicationAdapter(getContext(), medications);
+
+        fab = view.findViewById(R.id.medication_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),R.string.app_name, Toast.LENGTH_SHORT).show();
+                new MedicationDialog().show(getFragmentManager(), null);
             }
         });
+
+        listView = view.findViewById(R.id.medication_list_view);
+        listView.setAdapter(adapter);
+
 
         return view;
     }

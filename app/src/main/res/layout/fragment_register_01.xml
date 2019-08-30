@@ -32,6 +32,7 @@
             android:textSize="18sp" />
 
         <ListView
+            android:id="@+id/medication_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
@@ -39,7 +40,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_medication"
+        android:id="@+id/medication_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -48,6 +49,6 @@
         android:layout_margin="16dp"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="?attr/actionModeCutDrawable" />
+        app:srcCompat="@drawable/ic_add_white" />
 
 </RelativeLayout>

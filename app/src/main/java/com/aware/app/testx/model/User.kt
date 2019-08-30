@@ -9,7 +9,9 @@ class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Seri
     var symptoms: Symptoms? = null
 
     inner class Medication public constructor(var name: String, var intakeTime: String,
-                                               var dosage: String, var notes: String?)
+                                               var dosage: String, var notes: String?) {
+        inner class IntakeTime public constructor(var hour: Int, var minute: Int)
+    }
 
     inner class Symptoms public constructor(var swallowing: Int, var dressing: Int, var falling: Int,
                                              var turning_in_bed: Int, var walking: Int, var handwriting: Int,
