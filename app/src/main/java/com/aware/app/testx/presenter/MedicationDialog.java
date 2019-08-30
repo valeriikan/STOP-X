@@ -2,27 +2,25 @@ package com.aware.app.testx.presenter;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.aware.app.testx.R;
+import com.aware.app.testx.model.User;
 import com.aware.app.testx.view.RegisterFragment_01;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -31,34 +29,37 @@ import java.util.Calendar;
 
 public class MedicationDialog extends DialogFragment {
 
-//    private User user;
-//
-//    public MedicationDialog(User user) {
-//        this.user = user;
-//    }
-
-    private ArrayList<String> intakeTimes;
-    private IntakeTimeAdapter adapter;
-
+    // views
     private Toolbar toolbar;
-
     private TextInputEditText dialog_name, dialog_dosage, dialog_notes;
+    private CheckBox dialog_booster;
+    private TextView dialog_intake_tv;
     private ImageButton dialog_intake_btn;
     private ListView dialog_intake_list;
-    private TextView dialog_intake_tv;
 
-    public static MedicationDialog display(FragmentManager manager) {
-        MedicationDialog dialog = new MedicationDialog();
-        dialog.show(manager, "TAG");
-        return dialog;
+    // UI list view elements
+    private ArrayList<String> intakeTimes;
+    private RegisterArrayAdapter adapter;
+
+    // User data class elements
+    private User user;
+    private User.Medication medication;
+    private ArrayList<User.Medication.IntakeTime> intakeList;
+    private MedicationDialogListener listener;
+
+    public MedicationDialog(User user) {
+        this.user = user;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
 
-        intakeTimes = new ArrayList<>();
+        medication = user.new Medication();
+        intakeList = new ArrayList<User.Medication.IntakeTime>(); // for User class
+        intakeTimes = new ArrayList<String>(); // entries of list view in dialog ui
     }
 
     @Nullable
@@ -67,13 +68,13 @@ public class MedicationDialog extends DialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_medication, null);
 
         toolbar = view.findViewById(R.id.dialog_toolbar);
-
         dialog_name = view.findViewById(R.id.dialog_name);
         dialog_dosage = view.findViewById(R.id.dialog_dosage);
         dialog_notes = view.findViewById(R.id.dialog_notes);
+        dialog_booster = view.findViewById(R.id.dialog_booster);
+        dialog_intake_tv = view.findViewById(R.id.dialog_intake_tv);
         dialog_intake_btn = view.findViewById(R.id.dialog_intake_btn);
         dialog_intake_list = view.findViewById(R.id.dialog_intake_list);
-        dialog_intake_tv = view.findViewById(R.id.dialog_intake_tv);
 
         return view;
     }
@@ -81,9 +82,6 @@ public class MedicationDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        dialog_intake_btn.setOnClickListener(add_time);
-        dialog_intake_tv.setOnClickListener(add_time);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,22 +95,29 @@ public class MedicationDialog extends DialogFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                RegisterFragment_01.medications.add(dialog_name.getText().toString());
-                RegisterFragment_01.adapter.notifyDataSetChanged();
+                if (!dialog_name.getText().toString().equals("") &&
+                    !dialog_dosage.getText().toString().equals("") &&
+                    (dialog_booster.isChecked() || !intakeList.isEmpty())) {
 
-//                        User.Medication medication = user.new Medication(
-//                                dialog_name.getText().toString(),
-//                                dialog_dosage.getText().toString(),
-//                                dialog_notes.getText().toString(),
-//                                dialog_notes.getText().toString()
-//                        );
+                    medication.setName(dialog_name.getText().toString());
+                    medication.setDosage(dialog_dosage.getText().toString());
+                    medication.setIntakeTime(intakeList);
+                    medication.setBooster(dialog_booster.isChecked());
+                    medication.setNotes(dialog_notes.getText().toString());
+                    listener.onDismiss(medication);
 
-                dismiss();
-                return true;
+                    dismiss();
+                } else{
+                    Toast.makeText(getContext(), "Please fill the required fields", Toast.LENGTH_SHORT).show();
+                }
+                return  true;
             }
         });
 
-        adapter = new IntakeTimeAdapter(getContext(), intakeTimes);
+        dialog_intake_btn.setOnClickListener(add_time);
+        dialog_intake_tv.setOnClickListener(add_time);
+
+        adapter = new RegisterArrayAdapter(getContext(), intakeTimes, intakeList);
         dialog_intake_list.setAdapter(adapter);
     }
 
@@ -120,6 +125,7 @@ public class MedicationDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
 
+        // sets up dialog in full screen mode
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -129,16 +135,17 @@ public class MedicationDialog extends DialogFragment {
         }
     }
 
-
     private View.OnClickListener add_time = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             TimePickerDialog picker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    Log.d("STOP_TAG", hourOfDay+""+minute);
-                    intakeTimes.add(String.format("%02d:%02d", hourOfDay, minute));
-                    adapter.notifyDataSetChanged();
+
+                    intakeTimes.add(String.format("%02d:%02d", hourOfDay, minute)); // add element to UI array
+                    adapter.notifyDataSetChanged();                                // update dialog list view
+                    intakeList.add(medication.new IntakeTime(hourOfDay, minute));   // add element to User array
+
                 }
             }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
             picker.setTitle("Intake time");
@@ -146,40 +153,16 @@ public class MedicationDialog extends DialogFragment {
         }
     };
 
-    private class IntakeTimeAdapter extends ArrayAdapter<String> {
-
-        private Context context;
-        private ArrayList<String> list;
-
-        public IntakeTimeAdapter(@NonNull Context context, ArrayList<String> list) {
-            super(context, 0, list);
-            this.context = context;
-            this.list = list;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, @Nullable View listItem, @NonNull ViewGroup parent) {
-            if (listItem == null) {
-                listItem = LayoutInflater.from(context)
-                        .inflate(R.layout.view_list_item_consent_medication, parent, false);
-            }
-
-            TextView name = listItem.findViewById(R.id.consentMedicationName);
-            name.setText(list.get(position));
-
-            ImageView remove = listItem.findViewById(R.id.consentMedicationRemove);
-            remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                intakeTimes.remove(position);
-                notifyDataSetChanged();
-                }
-            });
-
-            return listItem;
-        }
+    // Listener that sends data to fragment when dialog is dismissed
+    public interface MedicationDialogListener {
+        void onDismiss(User.Medication medication);
     }
 
+    public MedicationDialogListener getListener() {
+        return listener;
+    }
 
+    public void setListener(MedicationDialogListener listener) {
+        this.listener = listener;
+    }
 }

@@ -6,13 +6,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.aware.app.testx.R;
+import com.aware.app.testx.model.Test;
 import com.aware.app.testx.model.User;
 import com.aware.app.testx.presenter.SectionsAdapter;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
     private List<Fragment> fragments;
     private SectionsAdapter adapter;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +40,22 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         Intent intent = getIntent();
-        User user = (User) intent.getSerializableExtra("user");
+        user = (User) intent.getSerializableExtra("user");
+        Log.d("STOP_TAG", "1: " + new Gson().toJson(user));
+
+//        ArrayList<User.Medication> medications = new ArrayList<>();
+
 
 //        ArrayList<User.Medication> medications1 = new ArrayList<>();
 //        medications1.add(user.new Medication("11","22", "33","44"));
 //        medications1.add(user.new Medication("55","66", "77","88"));
 //        user.setMedications(medications1);
 //        Log.d("STOP_TAG", "3: " + new Gson().toJson(user));
+
+
+//        Test test = new Test();
+//        Test.Medication meds = test.new Medication();
+//        Test.Medication medication = new Test.new Test.Medication("","","","");
 
         // initialize ui
         viewPager = findViewById(R.id.register_view_pager);
@@ -51,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // initialize fragments
         fragments = new ArrayList<>();
-        fragment_medications = new RegisterFragment_01();
+        fragment_medications = new RegisterFragment_01(user);
         fragment_updrs = new RegisterFragment_02();
         fragments.add(fragment_medications);
         fragments.add(fragment_updrs);

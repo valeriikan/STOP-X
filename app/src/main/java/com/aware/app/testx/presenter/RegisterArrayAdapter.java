@@ -15,15 +15,17 @@ import com.aware.app.testx.R;
 
 import java.util.ArrayList;
 
-public class MedicationAdapter extends ArrayAdapter<String> {
+public class RegisterArrayAdapter extends ArrayAdapter<String> {
 
     private Context context;
-    private ArrayList<String> list;
+    private ArrayList<String> uiList;
+    private ArrayList userList;
 
-    public MedicationAdapter(@NonNull Context context, ArrayList<String> list) {
-        super(context, 0, list);
+    public RegisterArrayAdapter(@NonNull Context context, ArrayList<String> uiList, ArrayList userList) {
+        super(context, 0, uiList);
         this.context = context;
-        this.list = list;
+        this.uiList = uiList;
+        this.userList = userList;
     }
 
     @NonNull
@@ -32,18 +34,18 @@ public class MedicationAdapter extends ArrayAdapter<String> {
 
         if (listItem == null) {
             listItem = LayoutInflater.from(context)
-                    .inflate(R.layout.view_list_item_consent_medication, parent, false);
+                    .inflate(R.layout.fragment_register_list_item, parent, false);
         }
 
         TextView name = listItem.findViewById(R.id.consentMedicationName);
-        name.setText(list.get(position));
+        name.setText(uiList.get(position));
 
         ImageView remove = listItem.findViewById(R.id.consentMedicationRemove);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                list.remove(position);
-//                medicationJSONArray.remove(position);
+                uiList.remove(position);
+                userList.remove(position);
                 notifyDataSetChanged();
             }
         });

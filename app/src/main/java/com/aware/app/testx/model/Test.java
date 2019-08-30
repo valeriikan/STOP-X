@@ -71,6 +71,10 @@ public class Test implements Serializable {
         private String dosage;
         private String notes;
 
+        public Medication() {
+
+        }
+
         public Medication(String name, String intakeTime, String dosage, String notes) {
             this.name = name;
             this.intakeTime = intakeTime;
