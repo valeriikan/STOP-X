@@ -5,8 +5,9 @@ import java.util.*
 
 class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Serializable {
     var diagnosed_time: Int? = null
+    var dbs: Boolean? = null
     var medications: ArrayList<Medication>? = null
-    var symptoms: Symptoms? = null
+    var symptoms: ArrayList<Symptom>? = null
 
     inner class Medication() {
         var name: String? = null
@@ -18,11 +19,6 @@ class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Seri
         inner class IntakeTime (var hour: Int, var minute: Int)
     }
 
-    inner class Symptoms constructor(var swallowing: Int, var dressing: Int, var falling: Int,
-                                     var turning_in_bed: Int, var walking: Int, var handwriting: Int,
-                                     var freezing_when_walking: Int, var tremor: Int, var sensory_complaints: Int,
-                                     var speech: Int, var salivation: Int, var cutting_food: Int, var hygiene: Int)
+    inner class Symptom (var name: String, var rate: Int)
 
 }
-
-

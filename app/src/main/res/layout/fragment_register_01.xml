@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fillViewport="true"
     tools:context=".view.RegisterFragment_01">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Medication journal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="Patient profile"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -27,28 +27,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Please define here all the medication you take"
-            android:textAlignment="center"
+            android:text="Please answer the following questions"
             android:textSize="18sp" />
 
-        <ListView
-            android:id="@+id/medication_list_view"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="80dp"
+            android:hint="What year was you diagnosed PD?">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="4"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/cb_dbs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:textColor="#9f9f9f"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="I have Deep Brain Stimulator installed" />
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/medication_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_add_white" />
-
-</RelativeLayout>
+</ScrollView>

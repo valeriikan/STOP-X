@@ -15,13 +15,13 @@ import com.aware.app.testx.R;
 
 import java.util.ArrayList;
 
-public class RegisterArrayAdapter extends ArrayAdapter<String> {
+public class MedicationAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private ArrayList<String> uiList;
     private ArrayList userList;
 
-    public RegisterArrayAdapter(@NonNull Context context, ArrayList<String> uiList, ArrayList userList) {
+    public MedicationAdapter(@NonNull Context context, ArrayList<String> uiList, ArrayList userList) {
         super(context, 0, uiList);
         this.context = context;
         this.uiList = uiList;
@@ -34,7 +34,7 @@ public class RegisterArrayAdapter extends ArrayAdapter<String> {
 
         if (listItem == null) {
             listItem = LayoutInflater.from(context)
-                    .inflate(R.layout.fragment_register_list_item, parent, false);
+                    .inflate(R.layout.view_list_item_medication, parent, false);
         }
 
         TextView name = listItem.findViewById(R.id.consentMedicationName);

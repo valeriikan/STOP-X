@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.aware.app.testx.R;
-import com.aware.app.testx.model.Test;
 import com.aware.app.testx.model.User;
 import com.aware.app.testx.presenter.SectionsAdapter;
 import com.google.gson.Gson;
@@ -26,8 +26,9 @@ public class RegisterActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private Button btnPrevious, btnNext;
 
-    private RegisterFragment_01 fragment_medications;
-    private RegisterFragment_02 fragment_updrs;
+    private RegisterFragment_01 fragment_profile;
+    private RegisterFragment_02 fragment_medications;
+    private RegisterFragment_03 fragment_symptoms;
     private List<Fragment> fragments;
     private SectionsAdapter adapter;
 
@@ -39,23 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
 
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
-        Log.d("STOP_TAG", "1: " + new Gson().toJson(user));
-
-//        ArrayList<User.Medication> medications = new ArrayList<>();
-
-
-//        ArrayList<User.Medication> medications1 = new ArrayList<>();
-//        medications1.add(user.new Medication("11","22", "33","44"));
-//        medications1.add(user.new Medication("55","66", "77","88"));
-//        user.setMedications(medications1);
-//        Log.d("STOP_TAG", "3: " + new Gson().toJson(user));
-
-
-//        Test test = new Test();
-//        Test.Medication meds = test.new Medication();
-//        Test.Medication medication = new Test.new Test.Medication("","","","");
+        // retrieve user from consent activity
+        user = (User) getIntent().getSerializableExtra("user");
 
         // initialize ui
         viewPager = findViewById(R.id.register_view_pager);
@@ -65,10 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         // initialize fragments
         fragments = new ArrayList<>();
-        fragment_medications = new RegisterFragment_01(user);
-        fragment_updrs = new RegisterFragment_02();
+        fragment_profile = new RegisterFragment_01();
+        fragment_medications = new RegisterFragment_02(user);
+        fragment_symptoms = new RegisterFragment_03(user);
+        fragments.add(fragment_profile);
         fragments.add(fragment_medications);
-        fragments.add(fragment_updrs);
+        fragments.add(fragment_symptoms);
 
         // set up pager adapter
         adapter = new SectionsAdapter(getSupportFragmentManager(), this,
@@ -92,7 +80,17 @@ public class RegisterActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(current + 1);
                 } else {
                     // TODO:
-
+                    if (!fragment_profile.etYear.getText().toString().equals("") &&
+                        fragment_symptoms.getSymptoms() != null) {
+                        user.setDiagnosed_time(Integer.valueOf(fragment_profile.etYear.getText().toString()));
+                        user.setDbs(fragment_profile.cbDbs.isChecked());
+                        user.setMedications(fragment_medications.getMedications());
+                        user.setSymptoms(fragment_symptoms.getSymptoms());
+                        Log.d("STOP_TAG", "RESULT: " + new Gson().toJson(user));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please fill at least the diagnosis year and all symptoms",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

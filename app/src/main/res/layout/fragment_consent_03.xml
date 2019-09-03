@@ -70,8 +70,6 @@
                 android:checked="true"
                 android:buttonTint="#fff"/>
 
-
-
         </LinearLayout>
 
         <LinearLayout

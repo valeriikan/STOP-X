@@ -21,7 +21,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.aware.app.testx.R;
 import com.aware.app.testx.model.User;
-import com.aware.app.testx.view.RegisterFragment_01;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -39,13 +38,13 @@ public class MedicationDialog extends DialogFragment {
 
     // UI list view elements
     private ArrayList<String> intakeTimes;
-    private RegisterArrayAdapter adapter;
+    private MedicationAdapter adapter;
+    private MedicationDialogListener listener;
 
     // User data class elements
     private User user;
     private User.Medication medication;
     private ArrayList<User.Medication.IntakeTime> intakeList;
-    private MedicationDialogListener listener;
 
     public MedicationDialog(User user) {
         this.user = user;
@@ -117,7 +116,7 @@ public class MedicationDialog extends DialogFragment {
         dialog_intake_btn.setOnClickListener(add_time);
         dialog_intake_tv.setOnClickListener(add_time);
 
-        adapter = new RegisterArrayAdapter(getContext(), intakeTimes, intakeList);
+        adapter = new MedicationAdapter(getContext(), intakeTimes, intakeList);
         dialog_intake_list.setAdapter(adapter);
     }
 
