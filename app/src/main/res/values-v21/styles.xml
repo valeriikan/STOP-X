@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    <style name="ConsentStyle">-->
-<!--        <item name="android:textColorHint">#fff</item>-->
-<!--        <item name="android:textColor">#fff</item>-->
-<!--        <item name="colorAccent">#fff</item>-->
-<!--        <item name="android:colorControlActivated">#fff</item>-->
-<!--        <item name="android:colorControlNormal">#fff</item>-->
-<!--        <item name="android:colorControlHighlight">#fff</item>-->
-<!--    </style>-->
+    <style name="ConsentStyle">
+        <item name="android:textColorHint">#fff</item>
+        <item name="android:textColor">#fff</item>
+        <item name="colorAccent">#fff</item>
+        <item name="android:colorControlActivated">#fff</item>
+        <item name="android:colorControlNormal">#fff</item>
+        <item name="android:colorControlHighlight">#fff</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
 </resources>

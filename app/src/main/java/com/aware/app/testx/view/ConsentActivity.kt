@@ -17,11 +17,10 @@ import kotlinx.android.synthetic.main.activity_consent.*
 import kotlinx.android.synthetic.main.fragment_consent_03.*
 import java.util.ArrayList
 
-class ConsentActivity : AppCompatActivity() {
+class ConsentActivity : AppCompatActivity(R.layout.activity_consent) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_consent)
         supportActionBar?.hide()
 
         // initialize fragments
