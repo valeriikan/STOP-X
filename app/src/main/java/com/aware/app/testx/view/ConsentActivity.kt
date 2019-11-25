@@ -25,9 +25,9 @@ class ConsentActivity : AppCompatActivity(R.layout.activity_consent) {
 
         // initialize fragments
         val fragments: ArrayList<Fragment> = ArrayList()
-        val detailsFragment = ConsentFragment_03()
-        fragments.add(ConsentFragment_01())
-        fragments.add(ConsentFragment_02())
+        val detailsFragment = Fragment(R.layout.fragment_consent_03)
+        fragments.add(Fragment(R.layout.fragment_consent_01))
+        fragments.add(Fragment(R.layout.fragment_consent_02))
         fragments.add(detailsFragment)
 
         // set up pager adapter

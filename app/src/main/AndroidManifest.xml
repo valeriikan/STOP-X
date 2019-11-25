@@ -3,20 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aware.app.testx">
 
-    <permission
-        android:name="com.aware.WRITE_CONTEXT_DATA"
-        android:description="@string/write_permission"
-        android:icon="@drawable/ic_launcher_settings"
-        android:label="Write to AWARE&apos;s Context data"
-        android:protectionLevel="signature" />
-
-    <permission
-        android:name="com.aware.READ_CONTEXT_DATA"
-        android:description="@string/read_permission"
-        android:icon="@drawable/ic_launcher_settings"
-        android:label="Read AWARE&apos;s Context data"
-        android:protectionLevel="signature" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ConsentActivity"/>
+        <activity android:name=".view.ConsentActivity" />
         <activity android:name=".view.RegisterActivity" />
 
         <provider
@@ -58,5 +44,19 @@
                 android:resource="@xml/sync_testx" />
         </service>
     </application>
+
+    <permission
+        android:name="com.aware.WRITE_CONTEXT_DATA"
+        android:description="@string/write_permission"
+        android:icon="@drawable/ic_launcher_settings"
+        android:label="Write to AWARE&apos;s Context data"
+        android:protectionLevel="signature" />
+
+    <permission
+        android:name="com.aware.READ_CONTEXT_DATA"
+        android:description="@string/read_permission"
+        android:icon="@drawable/ic_launcher_settings"
+        android:label="Read AWARE&apos;s Context data"
+        android:protectionLevel="signature" />
 
 </manifest>

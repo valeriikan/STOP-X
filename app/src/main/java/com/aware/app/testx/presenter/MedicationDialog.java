@@ -42,13 +42,7 @@ public class MedicationDialog extends DialogFragment {
     private MedicationDialogListener listener;
 
     // User data class elements
-    private User user;
-    private User.Medication medication;
     private ArrayList<User.Medication.IntakeTime> intakeList;
-
-    public MedicationDialog(User user) {
-        this.user = user;
-    }
 
 
     @Override
@@ -56,7 +50,6 @@ public class MedicationDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
 
-        medication = user.new Medication();
         intakeList = new ArrayList<User.Medication.IntakeTime>(); // for User class
         intakeTimes = new ArrayList<String>(); // entries of list view in dialog ui
     }
@@ -97,6 +90,8 @@ public class MedicationDialog extends DialogFragment {
                 if (!dialog_name.getText().toString().equals("") &&
                     !dialog_dosage.getText().toString().equals("") &&
                     (dialog_booster.isChecked() || !intakeList.isEmpty())) {
+
+                    User.Medication medication = new User.Medication();
 
                     medication.setName(dialog_name.getText().toString());
                     medication.setDosage(dialog_dosage.getText().toString());
@@ -143,7 +138,7 @@ public class MedicationDialog extends DialogFragment {
 
                     intakeTimes.add(String.format("%02d:%02d", hourOfDay, minute)); // add element to UI array
                     adapter.notifyDataSetChanged();                                // update dialog list view
-                    intakeList.add(medication.new IntakeTime(hourOfDay, minute));   // add element to User array
+                    intakeList.add(new User.Medication.IntakeTime(hourOfDay, minute));   // add element to User array
 
                 }
             }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);

@@ -9,16 +9,16 @@ class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Seri
     var medications: ArrayList<Medication>? = null
     var symptoms: ArrayList<Symptom>? = null
 
-    inner class Medication {
+    class Medication {
         var name: String? = null
         var dosage: String? = null
         var intakeTime: ArrayList<IntakeTime>? = null
         var booster: Boolean? = null
         var notes: String? = null
 
-        inner class IntakeTime (var hour: Int, var minute: Int)
+        class IntakeTime (var hour: Int, var minute: Int)
     }
 
-    inner class Symptom (var name: String, var rate: Int)
+    class Symptom (var name: String, var rate: Int)
 
 }
