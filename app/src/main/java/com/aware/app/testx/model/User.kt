@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.util.*
 
 class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Serializable {
-    var diagnosed_time: Int? = null
+    var diagnosis_year: Int? = null
     var dbs: Boolean? = null
     var medications: ArrayList<Medication>? = null
     var symptoms: ArrayList<Symptom>? = null
@@ -20,5 +20,4 @@ class User(var username: String, var age: Int, var diagnosed_pd: Boolean) : Seri
     }
 
     class Symptom (var name: String, var rate: Int)
-
 }

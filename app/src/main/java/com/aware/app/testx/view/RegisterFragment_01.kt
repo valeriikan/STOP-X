@@ -11,8 +11,8 @@ import com.aware.app.testx.R
 
 class RegisterFragment_01 : Fragment() {
 
-    lateinit var etYear: EditText
-    lateinit var cbDbs: CheckBox
+    private lateinit var etYear: EditText
+    private lateinit var cbDbs: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

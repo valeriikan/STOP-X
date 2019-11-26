@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:hint="What year was you diagnosed PD?">
+            android:hint="What year was you diagnosed PD? (e.g. 2001)">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_year"

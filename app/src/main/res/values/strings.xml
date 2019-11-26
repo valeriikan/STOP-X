@@ -6,5 +6,8 @@
     <string name="consent_details">The University of Oulu (Finland) and the University of Manchester (UK) are using this application to better understand Parkinson’s medication adherence and effectiveness via gamification and medication logs. By installing and agreeing to this consent, you effectively become a participant to our joint research effort. If you disagree, you may still use the application without any data sharing.\n\n<b>Data Collection</b>\n- Your answers to the initial Parkinson’s patient profile questions\n- Accelerometer, gyroscope, orientation data from the phone ONLY during game sessions of our STOP game\n- Your medication taking times\n- Application stability data collected via Google Analytics (crashes)\n\n<b>Security and Privacy</b>\nHIPAA and GDPR compliant: the encrypted data is securely sent to our server in Oulu for further analysis on a regular basis over WiFi. No personal identifiers are collected. Personalisable name for a randomly assigned UUID. If withdrawn from data collection, the server data is erased.</string>
     <string name="consent_title">Research consent</string>
 
+    <string name="btn_continue">Continue</string>
+    <string name="btn_next">Next</string>
+
     <string name="provider_game_label">STOP application data</string>
 </resources>

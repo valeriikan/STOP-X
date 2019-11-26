@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.aware.Aware
@@ -47,11 +48,11 @@ class ConsentActivity : AppCompatActivity(R.layout.activity_consent) {
                 if (!detailsFragment.cb_consent.isChecked) {
                     // run demo mode if consent is declined
                     // TODO: show warning, then open demo mode without db call
-
+                    Toast.makeText(applicationContext, "App will run in demo mode", Toast.LENGTH_SHORT).show()
 
                 } else if (!detailsFragment.cb_diagnosis.isChecked) {
                     // run app as non-pd user
-                    // TODO: call db
+                    // TODO: Run the app as non pd
                     val data = Gson().toJson(User(detailsFragment.et_username.text.toString(),
                             Integer.valueOf(detailsFragment.et_age.text.toString()),
                             detailsFragment.cb_diagnosis.isChecked))
@@ -61,11 +62,12 @@ class ConsentActivity : AppCompatActivity(R.layout.activity_consent) {
                     values.put(Provider.AWAREColumns.DEVICE_ID, Aware.getSetting(applicationContext, Aware_Preferences.DEVICE_ID))
                     values.put(Provider.Users_Table.DATA, data)
                     contentResolver.insert(Provider.Users_Table.CONTENT_URI, values)
-                    Toast.makeText(applicationContext, "Inserted", Toast.LENGTH_SHORT).show()
+
+                    Log.d("STOP_TAG", "RESULT: $data")
+                    Toast.makeText(applicationContext, "Inserted as NON PD", Toast.LENGTH_SHORT).show()
 
                 } else {
                     // open pd registration profile
-                    // TODO: run med reg
                     val user = User(detailsFragment.et_username.text.toString(),
                             Integer.valueOf(detailsFragment.et_age.text.toString()),
                             detailsFragment.cb_diagnosis.isChecked)

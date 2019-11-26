@@ -58,5 +58,4 @@ class SplashActivity : AppCompatActivity() {
             startActivity(permissions)
         }
     }
-
 }

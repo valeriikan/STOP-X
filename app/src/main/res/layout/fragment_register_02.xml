@@ -29,8 +29,8 @@
             android:textAlignment="center"
             android:textSize="18sp" />
 
-        <ListView
-            android:id="@+id/medication_list_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/medication_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
